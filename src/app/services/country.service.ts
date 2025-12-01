@@ -134,6 +134,38 @@ export class CountryService {
     return this.countryData.find(c => c.code === code);
   }
 
+  /**
+   * Find nearest country from given coordinates (latitude, longitude).
+   * Returns the nearest Country object.
+   */
+  getNearestCountry(latitude: number, longitude: number): Country | undefined {
+    if (this.countryData.length === 0) return undefined;
+
+    let nearest: Country | undefined = undefined;
+    let bestDist = Number.POSITIVE_INFINITY;
+
+    for (const c of this.countryData) {
+      const d = this.haversineDistance(latitude, longitude, c.latitude, c.longitude);
+      if (d < bestDist) {
+        bestDist = d;
+        nearest = c;
+      }
+    }
+    return nearest;
+  }
+
+  private haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const toRad = (deg: number) => deg * (Math.PI / 180);
+    const R = 6371; // km
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+
   getAllCountries(): Country[] {
     return [...this.countryData];
   }

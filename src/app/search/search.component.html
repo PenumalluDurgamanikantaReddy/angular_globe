@@ -5,18 +5,29 @@
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.35-4.35"></path>
         </svg>
-        <input type="text" class="search-input" placeholder="Search for a country..." [(ngModel)]="searchQuery"
+        <input #searchInput type="text" class="search-input" placeholder="Search for a country or place..." [(ngModel)]="searchQuery"
             (input)="onSearchInput()" (keydown)="onKeyDown($event)" (focus)="onFocus()" (blur)="onBlur()"
             autocomplete="off" />
     </div>
 
-    <div class="suggestions" *ngIf="showSuggestions && suggestions.length > 0">
+    <div class="suggestions" *ngIf="showSuggestions && (suggestions.length + placeSuggestions.length) > 0">
+        <!-- Country suggestions (static) -->
         <div *ngFor="let country of suggestions; let i = index" class="suggestion-item"
             [class.selected]="i === selectedIndex" (mousedown)="selectCountry(country)">
             <span class="country-flag">🌍</span>
             <div class="country-info">
                 <div class="country-name">{{ country.name }}</div>
                 <div class="country-code">{{ country.code }}</div>
+            </div>
+        </div>
+
+        <!-- Google Places suggestions (styled like the country list) -->
+        <div *ngFor="let pred of placeSuggestions; let j = index" class="suggestion-item"
+            [class.selected]="(suggestions.length + j) === selectedIndex" (mousedown)="selectPlacePrediction(pred)">
+            <span class="country-flag">📍</span>
+            <div class="country-info">
+                <div class="country-name">{{ pred.description }}</div>
+                <div class="country-code">{{ pred.structured_formatting?.secondary_text || '' }}</div>
             </div>
         </div>
     </div>
