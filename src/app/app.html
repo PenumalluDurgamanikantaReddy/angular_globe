@@ -1,0 +1,14 @@
+<div class="app-container">
+  <div class="header">
+    <h1 class="title">🌍 Globe Explorer</h1>
+    <p class="subtitle">Explore the world with smooth animations</p>
+  </div>
+
+  <div class="search-wrapper">
+    <app-search (countrySelected)="onCountrySelected($event)"></app-search>
+  </div>
+
+  <div class="globe-wrapper">
+    <app-globe></app-globe>
+  </div>
+</div>
