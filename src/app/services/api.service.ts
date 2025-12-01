@@ -42,6 +42,7 @@ export class ApiService {
       libraries: 'places',
     };
     const params = Object.keys(query).map(key => `${key}=${encodeURIComponent(query[key])}`).join('&');
-    return `https://maps.googleapis.com/maps/api/js?${params}`;
+    // Add loading=async to avoid Google's deprecation warning about sync loading
+    return `https://maps.googleapis.com/maps/api/js?${params}&loading=async`;
   }
 }

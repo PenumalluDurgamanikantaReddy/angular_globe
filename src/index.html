@@ -13,6 +13,9 @@
   <!-- Runtime injection of Google Maps API key for Places Autocomplete -->
   <script>
     // WARNING: Do not commit API keys to source control. This is for local/dev testing only.
+    // IMPORTANT: Add your domain to the allowed referrers in Google Cloud Console:
+    // https://console.cloud.google.com/ > Your Project > APIs & Services > Credentials
+    // Add https://angular-globe-c8uk.vercel.app to the HTTP referrers list
     window.__GOOGLE_MAPS_API_KEY = 'AIzaSyCaKbVhcX_22R_pRKDYuNA7vox-PtGaDkI';
   </script>
   <app-root></app-root>
